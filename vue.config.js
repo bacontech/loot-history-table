@@ -1,5 +1,11 @@
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/loot-history-table/ '
+    ? '/'
     : '/'
 }
+//
+// module.exports = {
+//   publicPath: process.env.NODE_ENV === 'production'
+//     ? '/loot-history-table/'
+//     : '/'
+// }
