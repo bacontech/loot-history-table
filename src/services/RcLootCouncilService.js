@@ -14,7 +14,7 @@ export default class RcLootCouncilService {
   }
 
   getUrl () {
-    return 'https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/loot-may-1-export.csv'
+    return 'https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/2020-05-03.txt'
   }
 
   async getLootHistoryFromGitHub (url) {
