@@ -2,8 +2,8 @@
   <div class="loot-page">
     <h1>Tegrity Loot History</h1>
     <br>
-    <div>
-
+    <div style="padding-bottom: 1em">
+      <a target="_blank" href="https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/2020-05-03.txt">Download the export to sync your loot council add on test</a>
     </div>
     <div class="checkbox-container">
       <label class="checkbox-component">
