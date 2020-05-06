@@ -21,6 +21,7 @@
       }"
       :search-options="{
         enabled: true,
+        placeholder: 'Search Player or Loot (Or search multiples when split with |)',
         searchFn: mySearchFunction
       }"
       :sort-options="{
@@ -114,10 +115,25 @@
         this.$store.dispatch('actionUpdateTestStore', 'updatedFromPage')
       },
       mySearchFunction (row, col, cellValue, searchTerm) {
-        if (col.field !== 'name'){
-          return false
+        if (col.field !== 'name' && col.field !== 'item') {
+          return false;
         }
-        return cellValue.toLowerCase().includes(searchTerm.toLowerCase())
+
+        const searchTerms = searchTerm.split('|')
+        if (searchTerms.length === 1) {
+          searchTerm = searchTerm.trim()
+
+          return cellValue.toLowerCase().includes(searchTerm.toLowerCase())
+        } else {
+          let hasMatch = false
+          searchTerms.forEach(search => {
+            if (cellValue.toLowerCase().includes(search.trim().toLowerCase())) {
+              hasMatch = true
+              return
+            }
+          })
+          return hasMatch
+        }
       },
     }
   }
