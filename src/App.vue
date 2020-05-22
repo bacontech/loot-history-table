@@ -6,7 +6,7 @@
       <h3>An error occurred loading loot data.</h3>
     </div>
     <div class="loading-group"
-       v-if="isLoadingData"
+       v-if="showLoadingSpinner"
     >
       <loading-progress
         :indeterminate="true"
@@ -16,7 +16,7 @@
       <h3>Grabbing Loot Data...</h3>
     </div>
     <LootPage
-      v-if="!isLoadingData"
+      v-if="!showLoadingSpinner"
     ></LootPage>
   </div>
 </template>
@@ -35,28 +35,49 @@ export default {
   data () {
     return {
       rcLootCouncilService: new RcLootCouncilService(),
-      isLoadingData: true,
+      loading: {
+        isLootLoaded: false,
+        isAttendanceLoaded: false
+      },
       failedToLoadData: false,
       csvData: null
     }
   },
   mounted () {
-    // TODO: Then I need to devise a strategy to load a bunch of loot history into the store.
-    // TODO: Then I need to create a searchable table
     // -- Sharable
-    // TODO: Then I need find a way for them to add more data.
+    // TODO: I need find a way for them to add more data.
     this.fetchLootHistory();
+    this.fetchAttendanceHistory();
+  },
+  computed: {
+    showLoadingSpinner () {
+      return !this.loading.isLootLoaded || !this.loading.isAttendanceLoaded;
+    }
   },
   methods: {
     ...mapActions({
-      addMultiplePlayers: 'addMultiplePlayers' // map `this.add()` to `this.$store.dispatch('increment')`
+      addMultiplePlayers: 'addMultiplePlayers', // map `this.add()` to `this.$store.dispatch('increment')`
+      addMultiplePlayerAttendance: 'addMultiplePlayerAttendance'
     }),
     async fetchLootHistory () {
-      const uri = this.rcLootCouncilService.getUrl()
+      const uri = this.rcLootCouncilService.getLootHistoryUrl()
       const players = await this.rcLootCouncilService.getLootHistoryFromGitHub(uri)
 
       this.addMultiplePlayers(players)
-      this.isLoadingData = false
+      this.loading.isLootLoaded = true
+    },
+    async fetchAttendanceHistory () {
+      const uri = this.rcLootCouncilService.getAttendanceUrl()
+      try {
+        const playersAttendance = await this.rcLootCouncilService.getAttendanceHistoryFromGoogleSheets(uri)
+        this.addMultiplePlayerAttendance(playersAttendance)
+      } catch (e) {
+        console.log(e)
+      }
+
+
+
+      this.loading.isAttendanceLoaded = true
     }
   }
 }

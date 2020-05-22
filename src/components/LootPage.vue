@@ -3,7 +3,7 @@
     <h1>Tegrity Loot History</h1>
     <br>
     <div style="padding-bottom: 1em">
-      <a target="_blank" href="https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/2020-05-10.txt">Download the export to sync your loot council add on test</a>
+      <a target="_blank" href="https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/loot_export.txt">Download the export to sync your loot council add on test</a>
     </div>
     <div class="checkbox-container">
       <label class="checkbox-component">
@@ -42,20 +42,16 @@
       VueGoodTable,
     },
     props: {
-      msg: String
     },
     data () {
       return {
         checkedOptions: ['bisNeed'],
-        csvData: null
       };
     },
     mounted () {
-      // TODO: Then I need to devise a strategy to load a bunch of loot history into the store.
-      // TODO: Then I need to create a searchable table
       // -- Sharable
       // TODO: Then I need find a way for them to add more data.
-      this.proveStoreWorks()
+      // this.proveStoreWorks()
     },
     computed: {
       stateTest () {
@@ -102,6 +98,7 @@
         ]
       },
       rows   () {
+        // Label and data come from these store getters
         if (this.checkedOptions.includes('bisNeed')) {
           return this.$store.getters.getPlayerLootForSearchTableBisNeedOnly
         } else {

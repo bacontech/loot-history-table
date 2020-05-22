@@ -8,6 +8,15 @@ import mutations from './mutations';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+
+  // Inside players:
+
+  // name : {
+  //    name,
+  //    loot: [],
+  //    attendance: {}
+  // }
+
   state: {
     someObj: {},
     testStore: null,

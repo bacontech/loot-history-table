@@ -13,8 +13,29 @@ export default class RcLootCouncilService {
     Object.freeze(this)
   }
 
-  getUrl () {
-    return 'https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/2020-05-10.txt'
+  getLootHistoryUrl () {
+    return 'https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/loot_export.txt'
+  }
+
+  getAttendanceUrl () {
+    return 'https://docs.google.com/spreadsheets/d/1XosofMxbZBsM_tdlt9lesg0nsM7z4iyl7xmxxZnNc9A/export?gid=2090796575&format=csv&id=1XosofMxbZBsM_tdlt9lesg0nsM7z4iyl7xmxxZnNc9A'
+  }
+
+  async getAttendanceHistoryFromGoogleSheets (url) {
+    if (!url) {
+      throw Error('RcLootCouncilService requires a URL')
+    }
+
+    try {
+      const response = await httpClient.get(url)
+      return this.transformAttendanceToOurFormat(response)
+    } catch (e) {
+      if (e !== 'ECONNABORTED') {
+        console.error('failed to retrieve loot. Connection aborted.')
+        throw e
+      }
+    }
+
   }
 
   async getLootHistoryFromGitHub (url) {
@@ -24,7 +45,7 @@ export default class RcLootCouncilService {
 
     try {
       const response = await httpClient.get(url)
-      return this.transformToOurFormat(response)
+      return this.transformLootToOurFormat(response)
     } catch (e) {
       if (e !== 'ECONNABORTED') {
         console.error('failed to retrieve loot. Connection aborted.')
@@ -33,7 +54,46 @@ export default class RcLootCouncilService {
     }
   }
 
-  transformToOurFormat (response) {
+  convertNames (name) {
+    // if (name.substring(0, 1) === 'J') {
+    //   console.log(name)
+    // }
+    if (name === 'JÃ¶rl') {
+      return 'Jörl'
+    }
+    return name
+  }
+
+  transformAttendanceToOurFormat (response) {
+    const csvData = response.data;
+
+    const parsedCsv = Papa.parse(csvData, {header: true})
+    const converted = []
+    parsedCsv.data.forEach(attendanceRecord => {
+
+      let name = attendanceRecord.Name;
+      name = this.convertNames(name);
+
+      const attendance30Day = attendanceRecord['30 Day'];
+      const attendance90Day = attendanceRecord['90 Day'];
+      const attendanceLifetime = attendanceRecord.Lifetime;
+
+      if (!attendanceRecord.Name) {
+        return
+      }
+
+      converted.push({
+        name,
+        attendance30Day,
+        attendance90Day,
+        attendanceLifetime
+      })
+    });
+    return converted;
+  }
+
+
+    transformLootToOurFormat (response) {
     const csvData = response.data;
 
     // Parse

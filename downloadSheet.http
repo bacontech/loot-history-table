@@ -1,0 +1,13 @@
+### Fetch csv from google sheets
+
+# long_id="id_assigned_to_your_document"
+# g_id="number_assigned_to_card_in_google_sheet"
+#
+# wget --output-document=temp.csv "https://docs.google.com/spreadsheets/d/$long_id/export?gid=$g_id&format=csv&id=$long_id"
+
+GET https://docs.google.com/spreadsheets/d/1XosofMxbZBsM_tdlt9lesg0nsM7z4iyl7xmxxZnNc9A/export?gid=2090796575&format=csv&id=1XosofMxbZBsM_tdlt9lesg0nsM7z4iyl7xmxxZnNc9A
+
+
+
+### Another fetch
+# https://docs.google.com/spreadsheets/d/{{ID}}/gviz/tq?tqx=out:csv&sheet={{sheet_name}}
