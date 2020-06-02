@@ -29,8 +29,8 @@ const getPlayerLootForSearchTableBisNeedOnly = state => {
     const playerLoot = player.loot.filter(loot => loot.rollType === 'Mainspec /Need' || loot.rollType === 'Best Available')
     const attendance = player.attendance
     let label = `${playerName}`
-    if (attendance.attendanceLifetime){
-      label = `${playerName} (LT: ${attendance.attendanceLifetime} - 30d: ${attendance.attendance30Day} - 90d: ${attendance.attendance90Day})`
+    if (attendance.attendance30Day){
+      label = `${playerName} (30d: ${attendance.attendance30Day} - 60d: ${attendance.attendance60Day} - 90d: ${attendance.attendance90Day})`
     }
 
     dataForTable.push({

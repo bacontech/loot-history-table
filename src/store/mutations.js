@@ -17,8 +17,8 @@ const ADD_UPDATE_PLAYER_ATTENDANCE = (state, playerAttendance) => {
 
   const attendance = {
     attendance30Day: playerAttendance.attendance30Day,
-    attendance90Day: playerAttendance.attendance90Day,
-    attendanceLifetime: playerAttendance.attendanceLifetime
+    attendance60Day: playerAttendance.attendance60Day,
+    attendance90Day: playerAttendance.attendance90Day
   }
 
     Vue.set(state.players, name, {

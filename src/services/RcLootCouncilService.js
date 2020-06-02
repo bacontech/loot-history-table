@@ -18,7 +18,7 @@ export default class RcLootCouncilService {
   }
 
   getAttendanceUrl () {
-    return 'https://docs.google.com/spreadsheets/d/1XosofMxbZBsM_tdlt9lesg0nsM7z4iyl7xmxxZnNc9A/export?gid=2090796575&format=csv&id=1XosofMxbZBsM_tdlt9lesg0nsM7z4iyl7xmxxZnNc9A'
+    return 'https://docs.google.com/spreadsheets/d/1OCcdSVagR3lLKcpOmndnmUSScsW22IvwbvBw93B4HSE/export?gid=610743414&format=csv&id=1OCcdSVagR3lLKcpOmndnmUSScsW22IvwbvBw93B4HSE'
   }
 
   async getAttendanceHistoryFromGoogleSheets (url) {
@@ -74,9 +74,10 @@ export default class RcLootCouncilService {
       let name = attendanceRecord.Name;
       name = this.convertNames(name);
 
+      console.log(attendanceRecord)
       const attendance30Day = attendanceRecord['30 Day'];
+      const attendance60Day = attendanceRecord['60 Day'];
       const attendance90Day = attendanceRecord['90 Day'];
-      const attendanceLifetime = attendanceRecord.Lifetime;
 
       if (!attendanceRecord.Name) {
         return
@@ -85,8 +86,8 @@ export default class RcLootCouncilService {
       converted.push({
         name,
         attendance30Day,
+        attendance60Day,
         attendance90Day,
-        attendanceLifetime
       })
     });
     return converted;
