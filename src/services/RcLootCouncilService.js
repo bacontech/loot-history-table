@@ -18,7 +18,9 @@ export default class RcLootCouncilService {
   }
 
   getAttendanceUrl () {
-    return 'https://docs.google.com/spreadsheets/d/1OCcdSVagR3lLKcpOmndnmUSScsW22IvwbvBw93B4HSE/export?gid=610743414&format=csv&id=1OCcdSVagR3lLKcpOmndnmUSScsW22IvwbvBw93B4HSE'
+    const proxy = 'https://cors-anywhere.herokuapp.com/'
+    const url = 'https://docs.google.com/spreadsheets/d/1OCcdSVagR3lLKcpOmndnmUSScsW22IvwbvBw93B4HSE/export?gid=610743414&format=csv&id=1OCcdSVagR3lLKcpOmndnmUSScsW22IvwbvBw93B4HSE'
+    return `${proxy}${url}`
   }
 
   async getAttendanceHistoryFromGoogleSheets (url) {
@@ -26,16 +28,41 @@ export default class RcLootCouncilService {
       throw Error('RcLootCouncilService requires a URL')
     }
 
+    const config = {
+      headers: {'Access-Control-Allow-Origin': '*'}
+    }
     try {
-      const response = await httpClient.get(url)
+      const response = await httpClient.get(url, config)
       return this.transformAttendanceToOurFormat(response)
     } catch (e) {
+      this.verboseErrorHandling(e)
       if (e !== 'ECONNABORTED') {
-        console.error('failed to retrieve loot. Connection aborted.')
+        console.error('failed to attendance. Connection aborted.')
         throw e
       }
     }
 
+  }
+
+  verboseErrorHandling(error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    }
+    if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    }
+
+    // Something happened in setting up the request that triggered an Error
+    console.log('Error', error.message);
+
+    console.log(error.config);
   }
 
   async getLootHistoryFromGitHub (url) {
