@@ -62,7 +62,10 @@
         return [
           {
             label: 'Date',
-            field: 'date'
+            field: 'date',
+            type: 'date',
+            dateInputFormat: 'MM/dd/yyyy',
+            dateOutputFormat: 'MM/dd/yy',
           }, {
             label: 'Item',
             field: 'item'
