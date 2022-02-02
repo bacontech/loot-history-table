@@ -4,6 +4,11 @@
       <h1>Loot</h1>
       <v-main app>
         <v-container class="pb-20">
+<!--          <p>Info: </p>-->
+<!--          <p>{{ currentRouteName }}</p>-->
+<!--          <p>{{ currentRoutePath }}</p>-->
+<!--          <p>{{ currentRouteFullPath }}</p>-->
+<!--          <p>{{ currentRouteKeys }}</p>-->
           <router-view />
         </v-container>
       </v-main>
@@ -25,6 +30,23 @@ export default {
   mounted () {
   },
   computed: {
+    currentRouteName() {
+      return this.currentRoute.name
+    },
+    currentRoutePath() {
+      return this.currentRoute.path
+    },
+    currentRouteFullPath() {
+      return this.currentRoute.fullPath
+    },
+    currentRoute () {
+      const current =  this.$router.currentRoute
+      return current || {};
+    },
+    currentRouteKeys () {
+      const current =  this.$router.currentRoute
+      return Object.keys(current)
+    },
   },
   methods: {
     ...mapActions({

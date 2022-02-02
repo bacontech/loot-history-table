@@ -14,4 +14,8 @@ npm run serve
 
 ``` powershell
 ./deploy.sh
+
+-- or --
+
+sh D:/git/loot-history-table/deploy.sh
 ```

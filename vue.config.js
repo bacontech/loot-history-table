@@ -1,6 +1,6 @@
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? './'
+    ? 'https://bacontech.github.io/loot-history-table'
     : './',
   chainWebpack: config => {
     config.module
