@@ -1,36 +1,37 @@
 <template>
   <div id="app">
+    <v-app>
+      <v-main app>
+        <v-container class="pb-20">
+          <router-view />
+        </v-container>
+      </v-main>
+    </v-app>
     <div
       v-if="failedToLoadData"
       >
       <h3>An error occurred loading loot data.</h3>
     </div>
-    <div class="loading-group"
-       v-if="showLoadingSpinner"
-    >
-      <loading-progress
-        :indeterminate="true"
-        shape="semicircle"
-        size="64"
-      ></loading-progress>
-      <h3>Grabbing Loot Data...</h3>
-    </div>
-    <LootPage
-      v-if="!showLoadingSpinner"
-    ></LootPage>
+<!--    <div class="loading-group"-->
+<!--       v-if="showLoadingSpinner"-->
+<!--    >-->
+<!--      <loading-progress-->
+<!--        :indeterminate="true"-->
+<!--        shape="semicircle"-->
+<!--        size="64"-->
+<!--      ></loading-progress>-->
+<!--      <h3>Grabbing Loot Data...</h3>-->
+<!--    </div>-->
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import LootPage from './components/LootPage';
 import RcLootCouncilService from './services/RcLootCouncilService';
 
 export default {
   name: 'App',
   components: {
-    LootPage,
-
   },
   data () {
     return {
@@ -44,10 +45,6 @@ export default {
     }
   },
   mounted () {
-    // -- Sharable
-    // TODO: I need find a way for them to add more data.
-    this.fetchLootHistory();
-    this.fetchAttendanceHistory();
   },
   computed: {
     showLoadingSpinner () {

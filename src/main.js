@@ -7,6 +7,8 @@ import VueProgress from 'vue-progress-path'
 import VuePapaParse from 'vue-papa-parse'
 import VueGoodTablePlugin from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
+import vuetify from './plugins/vuetify';
+import router from '@/router'
 
 
 Vue.use(VueGoodTablePlugin);
@@ -22,6 +24,8 @@ Vue.config.productionTip = false
 
 
 new Vue({
+  vuetify,
+  router,
   store: store,
   render: h => h(App),
 }).$mount('#app')
