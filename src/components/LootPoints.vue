@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Loot Points</h1>
     <v-simple-table class="striped-table">
       <template v-slot:default>
         <thead><tr>
