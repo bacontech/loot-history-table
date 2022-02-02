@@ -33,12 +33,12 @@
 </template>
 <script>
 import * as Papa from 'papaparse'
-import epgp from '@/resources/epgp.csv'
+// import epgp from '@/resources/epgp.csv'
 
 export default {
 
   async mounted() {
-    await this.getLootPoints()
+    await this.setRawDataFromGithub()
   },
   data: () => ({
     rawData: undefined,
@@ -59,24 +59,25 @@ export default {
     },
   },
   methods: {
+    // This was useful prior to having the csv deployed
     async getLootPoints () {
-      const blob = epgp
-      const papaparsed = Papa.parse(blob, { header: true})
-      console.log(JSON.stringify(papaparsed.data))
-      // [{ Name,Class,Guild Rank}]
-      this.rawData = papaparsed.data
+      // this.parseData(epgp)
     },
     async setRawDataFromGithub () {
       try {
         const url = 'https://raw.githubusercontent.com/bacontech/loot-history-table/master/src/resources/epgp.csv'
         const response = await this.$http.get(url)
         const csvBlob = response.data
-        const papaparsed = Papa.parse(csvBlob, { header: true})
-        this.rawData = papaparsed.data
+        this.parseData(csvBlob)
       } catch (ex) {
         console.error(ex)
       }
     },
+    parseData (csvBlob) {
+      const papaparsed = Papa.parse(csvBlob, { header: true})
+      // [{ Name,Class,Guild Rank}]
+      this.rawData = papaparsed.data
+    }
   },
 
 }

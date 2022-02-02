@@ -12,3 +12,6 @@ npm run serve
 
 ## Deployment
 
+``` powershell
+./deploy.sh
+```
